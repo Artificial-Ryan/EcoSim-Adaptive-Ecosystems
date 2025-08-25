@@ -15,9 +15,18 @@ class Plant {
         this.mesh.position.y = this.size; // Place on the ground
     }
 
-    // Placeholder for growth logic (will be implemented in next task)
-    grow() {
-        // Implement growth based on sunlight, water, etc.
+    grow(sunlightAmount) {
+        const growthRate = 0.001 * sunlightAmount; // Growth influenced by sunlight
+        this.size += growthRate;
+        this.mesh.scale.set(this.size / 0.1, this.size / 0.1, this.size / 0.1); // Scale the mesh
+        this.mesh.position.y = this.size; // Adjust position to stay on ground
+
+        // Update growth stage based on size
+        if (this.size > 0.5) {
+            this.growthStage = 'flowering';
+        } else if (this.size > 0.2) {
+            this.growthStage = 'mature';
+        }
     }
 
     // Placeholder for reproduction logic

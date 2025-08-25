@@ -83,6 +83,11 @@ function animate() {
     sunLight.intensity = lightIntensity;
     sunLight.color.copy(lightColor);
 
+    // Update plants
+    plants.forEach(plant => {
+        plant.grow(sunLight.intensity); // Pass sunlight intensity to plant growth
+    });
+
     renderer.render(scene, camera);
 }
 
