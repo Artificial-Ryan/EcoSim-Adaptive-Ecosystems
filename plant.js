@@ -16,16 +16,35 @@ class Plant {
     }
 
     grow(sunlightAmount) {
-        const growthRate = 0.001 * sunlightAmount; // Growth influenced by sunlight
-        this.size += growthRate;
-        this.mesh.scale.set(this.size / 0.1, this.size / 0.1, this.size / 0.1); // Scale the mesh
-        this.mesh.position.y = this.size; // Adjust position to stay on ground
+        const minSunlightForGrowth = 0.2; // Minimum sunlight intensity for growth
+        const decayRate = 0.0005; // Rate of decay when sunlight is insufficient
+
+        if (sunlightAmount > minSunlightForGrowth) {
+            const growthRate = 0.001 * sunlightAmount; // Growth influenced by sunlight
+            this.size += growthRate;
+        } else {
+            this.size -= decayRate; // Decay if not enough sunlight
+        }
+
+        // Ensure size doesn't go below a minimum or above a maximum
+        this.size = Math.max(0.01, Math.min(2.0, this.size));
+
+        // Update mesh scale and position
+        this.mesh.scale.set(this.size / 0.1, this.size / 0.1, this.size / 0.1);
+        this.mesh.position.y = this.size;
 
         // Update growth stage based on size
-        if (this.size > 0.5) {
+        if (this.size > 1.0) {
             this.growthStage = 'flowering';
-        } else if (this.size > 0.2) {
+        } else if (this.size > 0.5) {
             this.growthStage = 'mature';
+        } else {
+            this.growthStage = 'seedling';
+        }
+
+        // If plant shrinks to minimum size, it dies (will be handled in main.js later)
+        if (this.size <= 0.01) {
+            this.health = 0; // Mark as dead
         }
     }
 
