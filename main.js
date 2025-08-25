@@ -1,5 +1,6 @@
 import * as THREE from 'https://unpkg.com/three@0.128.0/build/three.module.js';
 import { Plant } from './plant.js';
+import { Herbivore } from './herbivore.js';
 
 // Scene, Camera, Renderer setup
 const scene = new THREE.Scene();
@@ -82,6 +83,17 @@ for (let i = 0; i < numObstacles; i++) {
         scene.add(obstacleMesh);
         obstacles.push({ position: obstaclePosition, size: obstacleSize, mesh: obstacleMesh });
     }
+}
+
+// Herbivores
+const herbivores = [];
+const numHerbivores = 5;
+for (let i = 0; i < numHerbivores; i++) {
+    const x = (Math.random() - 0.5) * 90;
+    const z = (Math.random() - 0.5) * 90;
+    const herbivore = new Herbivore(x, 0, z);
+    scene.add(herbivore.getMesh());
+    herbivores.push(herbivore);
 }
 
 // Animation loop
