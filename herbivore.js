@@ -15,9 +15,19 @@ class Herbivore {
         this.mesh.position.y = 0.5; // Place on the ground
     }
 
-    // Placeholder for movement logic (will be implemented in next task)
-    move() {
-        // Implement movement logic
+    move(delta) {
+        // Simple random movement for now
+        const moveAmount = this.speed * delta;
+        const angle = Math.random() * Math.PI * 2; // Random direction
+        this.position.x += Math.cos(angle) * moveAmount;
+        this.position.z += Math.sin(angle) * moveAmount;
+
+        // Keep within terrain bounds (assuming terrain is 100x100, centered at 0,0)
+        const halfTerrain = 50;
+        this.position.x = Math.max(-halfTerrain, Math.min(halfTerrain, this.position.x));
+        this.position.z = Math.max(-halfTerrain, Math.min(halfTerrain, this.position.z));
+
+        this.mesh.position.copy(this.position);
     }
 
     // Placeholder for eating logic

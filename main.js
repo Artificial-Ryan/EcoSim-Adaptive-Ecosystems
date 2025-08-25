@@ -139,6 +139,11 @@ function animate() {
         plant.grow(sunLight.intensity); // Pass sunlight intensity to plant growth
     });
 
+    // Update herbivores
+    herbivores.forEach(herbivore => {
+        herbivore.move(delta); // Pass delta time for movement
+    });
+
     renderer.render(scene, camera);
 }
 
