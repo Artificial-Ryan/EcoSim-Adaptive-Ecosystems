@@ -8,20 +8,21 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// Basic Cube (for testing)
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-scene.add(cube);
+// Terrain
+const planeGeometry = new THREE.PlaneGeometry(100, 100); // Large plane
+const planeMaterial = new THREE.MeshBasicMaterial({ color: 0x8FBC8F, side: THREE.DoubleSide }); // Green color
+const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+plane.rotation.x = Math.PI / 2; // Rotate to be flat on the ground
+scene.add(plane);
 
-camera.position.z = 5;
+camera.position.set(0, 50, 0); // Position camera above the plane
+camera.lookAt(0, 0, 0); // Look down at the center of the plane
 
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
 
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    // No animation for now, will be added later
 
     renderer.render(scene, camera);
 }
