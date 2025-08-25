@@ -45,6 +45,45 @@ for (let i = 0; i < 10; i++) {
     plants.push(plant);
 }
 
+// Obstacles
+const obstacles = [];
+const numObstacles = 15;
+const minObstacleDistance = 5; // Minimum distance between obstacles
+
+for (let i = 0; i < numObstacles; i++) {
+    let obstaclePosition;
+    let validPosition = false;
+    let attempts = 0;
+
+    while (!validPosition && attempts < 100) {
+        obstaclePosition = new THREE.Vector3(
+            (Math.random() - 0.5) * 90,
+            0,
+            (Math.random() - 0.5) * 90
+        );
+        validPosition = true;
+        // Check for overlap with existing obstacles
+        for (const existingObstacle of obstacles) {
+            if (obstaclePosition.distanceTo(existingObstacle.position) < minObstacleDistance) {
+                validPosition = false;
+                break;
+            }
+        }
+        attempts++;
+    }
+
+    if (validPosition) {
+        const obstacleSize = Math.random() * 5 + 2; // Random size
+        const obstacleGeometry = new THREE.BoxGeometry(obstacleSize, obstacleSize * 2, obstacleSize);
+        const obstacleMaterial = new THREE.MeshBasicMaterial({ color: 0x808080 }); // Grey color
+        const obstacleMesh = new THREE.Mesh(obstacleGeometry, obstacleMaterial);
+        obstacleMesh.position.copy(obstaclePosition);
+        obstacleMesh.position.y = obstacleSize; // Place on the ground
+        scene.add(obstacleMesh);
+        obstacles.push({ position: obstaclePosition, size: obstacleSize, mesh: obstacleMesh });
+    }
+}
+
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
