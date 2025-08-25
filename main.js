@@ -31,12 +31,15 @@ scene.add(sunMesh);
 const dayDuration = 60; // seconds for a full day
 let currentTime = 0; // 0 to dayDuration
 
+const clock = new THREE.Clock();
+const timeMultiplier = 1; // 1 real second = 1 simulated second. Adjust for faster/slower simulation.
+
 // Animation loop
 function animate() {
     requestAnimationFrame(animate);
 
-    // Update day/night cycle
-    currentTime += (1 / 60); // Advance time by 1/60th of a second (assuming 60 FPS)
+    const delta = clock.getDelta();
+    currentTime += delta * timeMultiplier; // Advance time based on real delta and multiplier
     if (currentTime > dayDuration) {
         currentTime = 0; // Reset time for continuous cycle
     }
