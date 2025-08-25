@@ -1,4 +1,5 @@
 import * as THREE from 'https://unpkg.com/three@0.128.0/build/three.module.js';
+import { Plant } from './plant.js';
 
 // Scene, Camera, Renderer setup
 const scene = new THREE.Scene();
@@ -33,6 +34,16 @@ let currentTime = 0; // 0 to dayDuration
 
 const clock = new THREE.Clock();
 const timeMultiplier = 1; // 1 real second = 1 simulated second. Adjust for faster/slower simulation.
+
+// Plants
+const plants = [];
+for (let i = 0; i < 10; i++) {
+    const x = (Math.random() - 0.5) * 90;
+    const z = (Math.random() - 0.5) * 90;
+    const plant = new Plant(x, 0, z);
+    scene.add(plant.getMesh());
+    plants.push(plant);
+}
 
 // Animation loop
 function animate() {
